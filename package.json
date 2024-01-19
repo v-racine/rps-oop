@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/v-racine/rps-oop#readme",
   "dependencies": {
-    "readline-sync": "1.4.10"
+    "readline-sync": "^1.4.10"
   }
 }
