@@ -65,11 +65,22 @@ const RPSGame = {
     console.log("Thanks for playing! Arriverderci!")
   },
 
+  playAgain() {
+    console.log("Would you like to play again? (y/n)");
+    let answer = readline.question();
+    return answer.toLowerCase()[0] === `y`;
+  },
+
   play() {
     this.displayWelcomeMessage();
-    this.human.choose();
-    this.computer.choose();
-    this.displayWinner();
+
+    while (true) {
+      this.human.choose();
+      this.computer.choose();
+      this.displayWinner();
+      if (!this.playAgain()) break;
+    }
+
     this.displayGoodByeMessage();
   },
 };
