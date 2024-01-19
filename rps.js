@@ -90,8 +90,7 @@ RPSGame.play();
 
 function createPlayer(playerType) {
   return {
-    // possible state: player name?
-    // possible state: player's current move?
+  
     playerType: playerType,
     move: null,
 
