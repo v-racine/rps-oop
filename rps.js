@@ -131,22 +131,23 @@ function createHuman() {
 
 
 //extra features:
-function createMove() {
-  return {
-    // possible state: type of move (paper, rock, scissors)
-  };
-}
 
-function createRule() {
-  return {
-    // possible state? not clear whether Rules need state
-  };
-}
+// function createMove() {
+//   return {
+//     // possible state: type of move (paper, rock, scissors)
+//   };
+// }
 
-// Since we don't yet know where to put `compare`, let's define
-// it as an ordinary function.
-let compare = function(move1, move2) {
-  // not yet implemented
-};
+// function createRule() {
+//   return {
+//     // possible state? not clear whether Rules need state
+//   };
+// }
+
+// // Since we don't yet know where to put `compare`, let's define
+// // it as an ordinary function.
+// let compare = function(move1, move2) {
+//   // not yet implemented
+// };
 
 

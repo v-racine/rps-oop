@@ -18,5 +18,8 @@
   "homepage": "https://github.com/v-racine/rps-oop#readme",
   "dependencies": {
     "readline-sync": "^1.4.10"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0"
   }
 }
