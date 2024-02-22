@@ -1,5 +1,6 @@
 const readline = require("readline-sync"); // eslint-disable-line
 const VALID_CHOICES = ["rock", "paper", "scissors"];
+const SHORT_VALID_CHOICES = ["r", "p", "s"];
 const MESSAGES = {
   userWinsRound: "You win this round!",
   compWinsRound: "I win this round!",
@@ -34,16 +35,24 @@ class Human extends Player {
   }
 
   choose() {
-    let choice;
+    console.log(
+      `Please choose one of the following options: ${VALID_CHOICES.join(" / ")}`
+    );
+    let choice = readline.question().toLowerCase();
 
-    while (!VALID_CHOICES.includes(choice)) { 
-      console.log("Please choose rock, paper, or scissors.");
-      choice = readline.question();
-
-      if (!VALID_CHOICES.includes(choice)) {
-        console.log("Sorry, that's an invalid choice.");
-      }
+    while( 
+      !VALID_CHOICES.includes(choice) && !SHORT_VALID_CHOICES.includes(choice)
+    ) {
+      console.log("Oops! That's not a valid choice. Please choose again.")
     }
+
+    if (choice[0] === "r") {
+      choice = "rock";
+    } else if (choice[0] === "p") {
+      choice = "paper";
+    } else if (choice[0] === "s") {
+      choice = "scissors"
+    } 
     
     this.move = choice;
   }
