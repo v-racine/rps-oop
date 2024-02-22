@@ -27,12 +27,13 @@ class Human {
   choose() {
     let choice;
 
-    while (true) { 
+    while (!["rock", "paper", "scissors"].includes(choice)) { 
       console.log("Please choose rock, paper, or scissors.");
       choice = readline.question();
 
-      if (["rock", "paper", "scissors"].includes(choice)) break;
-      console.log("Sorry, that's an invalid choice.");
+      if (!["rock", "paper", "scissors"].includes(choice)) {
+        console.log("Sorry, that's an invalid choice.");
+      }
     }
     
     this.move = choice;
@@ -43,6 +44,7 @@ class RPSGame {
   constructor() {
     this.human = new Human();
     this.computer = new Computer();
+    this.numOfGamesPlayed = 0;
   }
 
   displayWelcomeMessage() {
@@ -75,6 +77,10 @@ class RPSGame {
   }
 
   playAgain() {
+    if (this.numOfGamesPlayed === 0) {
+      return true;
+    } 
+
     console.log("Would you like to play again? (y/n)");
     let answer = readline.question();
     return answer.toLowerCase()[0] === `y`;
@@ -83,11 +89,12 @@ class RPSGame {
   play() {
     this.displayWelcomeMessage();
 
-    while (true) { 
+    while (this.playAgain()) { 
       this.human.choose();
       this.computer.choose();
       this.displayWinner();
-      if (!this.playAgain()) break;
+
+      this.numOfGamesPlayed += 1;
     }
 
     this.displayGoodByeMessage();
