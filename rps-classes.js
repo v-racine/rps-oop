@@ -1,5 +1,5 @@
 const readline = require("readline-sync"); // eslint-disable-line
-
+const VALID_CHOICES = ["rock", "paper", "scissors"];
 const MESSAGES = {
   userWinsRound: "You win this round!",
   compWinsRound: "I win this round!",
@@ -16,31 +16,31 @@ class Player {
 }
 
 
-class Computer {
+class Computer extends Player {
   constructor() {
-    this.computer = new Player();
+    super();
   }
 
   choose() {
-    const choices = ["rock", "paper", "scissors"];
-    let randomIndex = Math.floor(Math.random() * choices.length);
-    this.move = choices[randomIndex];
+    //const choices = ["rock", "paper", "scissors"];
+    let randomIndex = Math.floor(Math.random() * VALID_CHOICES.length);
+    this.move = VALID_CHOICES[randomIndex];
   }
 }
 
-class Human {
+class Human extends Player {
   constructor() {
-    this.human = new Player();
+    super();
   }
 
   choose() {
     let choice;
 
-    while (!["rock", "paper", "scissors"].includes(choice)) { 
+    while (!VALID_CHOICES.includes(choice)) { 
       console.log("Please choose rock, paper, or scissors.");
       choice = readline.question();
 
-      if (!["rock", "paper", "scissors"].includes(choice)) {
+      if (!VALID_CHOICES.includes(choice)) {
         console.log("Sorry, that's an invalid choice.");
       }
     }
