@@ -1,4 +1,4 @@
-const readline = require("readline-sync");
+const readline = require("readline-sync"); // eslint-disable-line
 
 class Player {
   constructor() {
@@ -27,7 +27,7 @@ class Human {
   choose() {
     let choice;
 
-    while (true) {
+    while (true) { 
       console.log("Please choose rock, paper, or scissors.");
       choice = readline.question();
 
@@ -83,7 +83,7 @@ class RPSGame {
   play() {
     this.displayWelcomeMessage();
 
-    while (true) {
+    while (true) { 
       this.human.choose();
       this.computer.choose();
       this.displayWinner();
