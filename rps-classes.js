@@ -1,5 +1,14 @@
 const readline = require("readline-sync"); // eslint-disable-line
 
+const MESSAGES = {
+  userWinsRound: "You win this round!",
+  compWinsRound: "I win this round!",
+  tieMsg: "It's a tie!",
+  userWinsGame: "You win the game!",
+  compWinsGame: "I win the game!",
+};
+
+
 class Player {
   constructor() {
     this.move = null; 
@@ -51,25 +60,35 @@ class RPSGame {
     console.log("Welcome to Rock, Paper, Scissors!");
   }
 
-  displayWinner() {
-    let humanMove = this.human.move;
-    let computerMove = this.computer.move;
+  determineWinner() {
+    let humanChoice = this.human.move;
+    let computerChoice = this.computer.move;
+    
+    const gameResults = {
+      rock: {
+        rock: MESSAGES.tieMsg,
+        paper: MESSAGES.compWinsRound,
+        scissors: MESSAGES.userWinsRound,
+      },
+      paper: {
+        rock: MESSAGES.userWinsRound,
+        paper: MESSAGES.tieMsg,
+        scissors: MESSAGES.compWinsRound,
+      },
+      scissors: {
+        rock: MESSAGES.compWinsRound,
+        paper: MESSAGES.userWinsRound,
+        scissors: MESSAGES.tieMsg,
+      },
+    };
+    return gameResults[humanChoice][computerChoice];
+  }
 
+  displayWinner() {
     console.log(`You chose: ${this.human.move}`);
     console.log(`The computer chose: ${this.computer.move}`);
 
-    if ((humanMove === "rock" && computerMove === "scissors") ||
-        (humanMove === "paper" && computerMove === "rock") ||
-        (humanMove === "scissors" && computerMove === "paper")) {
-      console.log("You win!");
-    } else if ((humanMove === "rock" && computerMove === "paper") ||
-               (humanMove === "paper" && computerMove === "scissors") ||
-               (humanMove === "scissors" && computerMove === "rock")) {
-      console.log("The computer wins!");
-    } else {
-      console.log("It's a tie!");
-    }
-
+    console.log(this.determineWinner());
   }
 
   displayGoodByeMessage() {
