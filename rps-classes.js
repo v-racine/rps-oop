@@ -143,7 +143,7 @@ class RPSGame {
   }
 
   displayGameWinner() {
-    console.log(GAME[this.gameWinner])
+    console.log(GAME[this.gameWinner]);
   }
 
 
@@ -168,10 +168,10 @@ class RPSGame {
       while (!this.gameWinner) {
         this.human.choose();
         this.computer.choose();
-        this.determineRoundWinner()
-        this.scoreboard.updateScores(this.roundWinner)
+        this.determineRoundWinner();
+        this.scoreboard.updateScores(this.roundWinner);
         this.displayRoundWinner();
-        this.determineGameWinner()
+        this.determineGameWinner();
       }
 
       this.displayGameWinner();
