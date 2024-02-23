@@ -1,14 +1,19 @@
 const readline = require("readline-sync"); // eslint-disable-line
+
 const VALID_CHOICES = ["rock", "paper", "scissors"];
 const SHORT_VALID_CHOICES = ["r", "p", "s"];
-const MESSAGES = {
-  userWinsRound: "You win this round!",
-  compWinsRound: "I win this round!",
-  tieMsg: "It's a tie!",
-  userWinsGame: "You win the game!",
-  compWinsGame: "I win the game!",
+const HUMAN = "HUMAN";
+const COMPUTER = "COMPUTER";
+const TIE = "TIE";
+const ROUND = {
+  HUMAN: "You win this round!",
+  COMPUTER: "I win this round!",
+  TIE: "It's a tie!"
 };
-
+const GAME = {
+  HUMAN: "You win the game!",
+  COMPUTER: "I win the game!"
+};
 
 class Player {
   constructor() {
@@ -16,14 +21,12 @@ class Player {
   }
 }
 
-
 class Computer extends Player {
   constructor() {
     super();
   }
 
   choose() {
-    //const choices = ["rock", "paper", "scissors"];
     let randomIndex = Math.floor(Math.random() * VALID_CHOICES.length);
     this.move = VALID_CHOICES[randomIndex];
   }
@@ -58,51 +61,91 @@ class Human extends Player {
   }
 }
 
+class Scoreboard {
+  constructor() {
+    this.humanScore = 0;
+    this.compScore = 0;
+  }
+
+  updateScores(roundWinner) {
+    switch (roundWinner) {
+      case HUMAN:
+        this.humanScore++
+        return;
+      case COMPUTER:
+        this.compScore++;
+        return;
+      default:
+        return;
+    }
+  }
+
+  resetScores() {
+    this.humanScore = 0;
+    this.compScore = 0;
+  }
+}
+
 class RPSGame {
   constructor() {
     this.human = new Human();
     this.computer = new Computer();
+    this.scoreboard = new Scoreboard();
     this.numOfGamesPlayed = 0;
+    this.roundWinner;
+    this.gameWinner;
+    this.maxWins = 3;
   }
 
   displayWelcomeMessage() {
-    console.log("Welcome to Rock, Paper, Scissors!");
+    console.log("Welcome to Rock, Paper, Scissors! Let's play a Best-Of-Five tournament!");
   }
 
-  determineWinner() {
+  determineRoundWinner() {
     let humanChoice = this.human.move;
     let computerChoice = this.computer.move;
     
     const gameResults = {
       rock: {
-        rock: MESSAGES.tieMsg,
-        paper: MESSAGES.compWinsRound,
-        scissors: MESSAGES.userWinsRound,
+        rock: TIE,
+        paper: COMPUTER,
+        scissors: HUMAN,
       },
       paper: {
-        rock: MESSAGES.userWinsRound,
-        paper: MESSAGES.tieMsg,
-        scissors: MESSAGES.compWinsRound,
+        rock: HUMAN,
+        paper: TIE,
+        scissors: COMPUTER,
       },
       scissors: {
-        rock: MESSAGES.compWinsRound,
-        paper: MESSAGES.userWinsRound,
-        scissors: MESSAGES.tieMsg,
+        rock: COMPUTER,
+        paper: HUMAN,
+        scissors: TIE,
       },
     };
-    return gameResults[humanChoice][computerChoice];
+
+    this.roundWinner = gameResults[humanChoice][computerChoice];
   }
 
-  displayWinner() {
+  displayRoundWinner() {
     console.log(`You chose: ${this.human.move}`);
     console.log(`The computer chose: ${this.computer.move}`);
 
-    console.log(this.determineWinner());
+    console.log(ROUND[this.roundWinner])
+    console.log(`Your score: ${this.scoreboard.humanScore} \nMy score: ${this.scoreboard.compScore}`);
   }
 
-  displayGoodByeMessage() {
-    console.log("Thanks for playing! Arriverderci!")
+  determineGameWinner() {
+    if (this.scoreboard.humanScore === this.maxWins) {
+      this.gameWinner = HUMAN;
+    } else if (this.scoreboard.compScore === this.maxWins) {
+      this.gameWinner = COMPUTER;
+    }
   }
+
+  displayGameWinner() {
+    console.log(GAME[this.gameWinner]);
+  }
+
 
   playAgain() {
     if (this.numOfGamesPlayed === 0) {
@@ -114,13 +157,25 @@ class RPSGame {
     return answer.toLowerCase()[0] === `y`;
   }
 
+  displayGoodByeMessage() {
+    console.log("Thanks for playing! Arriverderci!")
+  }
+
   play() {
     this.displayWelcomeMessage();
 
     while (this.playAgain()) { 
-      this.human.choose();
-      this.computer.choose();
-      this.displayWinner();
+      while (!this.gameWinner) {
+        this.human.choose();
+        this.computer.choose();
+        this.determineRoundWinner();
+        this.scoreboard.updateScores(this.roundWinner);
+        this.displayRoundWinner();
+        this.determineGameWinner();
+      }
+
+      this.displayGameWinner();
+      this.scoreboard.resetScores();
 
       this.numOfGamesPlayed += 1;
     }
