@@ -2,6 +2,7 @@ const readline = require("readline-sync"); // eslint-disable-line
 
 const VALID_CHOICES = ["rock", "paper", "scissors"];
 const SHORT_VALID_CHOICES = ["r", "p", "s"];
+const VALID_ROUND_CHOICES = ["3", "5", "7"];
 const HUMAN = "HUMAN";
 const COMPUTER = "COMPUTER";
 const TIE = "TIE";
@@ -119,8 +120,14 @@ class RPSGame {
 
   getNumOfRounds() {
     console.log("\nDo you want to play a 'best-of-three', a 'best-of-five', or a 'best-of-seven' tournament? \nPlease choose: 3 / 5 / 7");
-    let answer = readline.question();
-    let maxWins = Math.ceil(answer / 2);
+    let bestOfNum = readline.question();
+
+    while(!VALID_ROUND_CHOICES.includes(bestOfNum)) {
+      console.log("Oops! That's not a valid choice. Please choose again.");
+      bestOfNum = readline.question();
+    } 
+
+    let maxWins = Math.ceil(bestOfNum / 2);
     this.maxWins = maxWins;
   }
 
