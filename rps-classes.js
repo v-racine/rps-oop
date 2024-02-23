@@ -43,21 +43,18 @@ class Human extends Player {
     );
     let choice = readline.question().toLowerCase();
 
-    while( 
-      !VALID_CHOICES.includes(choice) && !SHORT_VALID_CHOICES.includes(choice)
-    ) {
-      console.log("Oops! That's not a valid choice. Please choose again.")
-    }
-
-    if (choice[0] === "r") {
-      choice = "rock";
-    } else if (choice[0] === "p") {
-      choice = "paper";
-    } else if (choice[0] === "s") {
-      choice = "scissors"
+    while(!VALID_CHOICES.includes(choice) && !SHORT_VALID_CHOICES.includes(choice)) {
+      console.log("Oops! That's not a valid choice. Please choose again.");
+      choice = readline.question().toLowerCase();
     } 
     
-    this.move = choice;
+    if (choice[0] === "r") {
+      this.move = "rock";
+    } else if (choice[0] === "p") {
+      this.move = "paper";
+    } else if (choice[0] === "s") {
+      this.move = "scissors";
+    } 
   }
 }
 
