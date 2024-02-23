@@ -30,7 +30,7 @@ Rule
 */
 
 const readline = require("readline-sync");
-//Orchestration Engine: The engine is where the procedural program flow should be. 
+//Orchestration Engine
 
 const RPSGame = {
   human: createHuman(),
@@ -130,24 +130,5 @@ function createHuman() {
 
 
 
-//extra features:
-
-// function createMove() {
-//   return {
-//     // possible state: type of move (paper, rock, scissors)
-//   };
-// }
-
-// function createRule() {
-//   return {
-//     // possible state? not clear whether Rules need state
-//   };
-// }
-
-// // Since we don't yet know where to put `compare`, let's define
-// // it as an ordinary function.
-// let compare = function(move1, move2) {
-//   // not yet implemented
-// };
 
 
