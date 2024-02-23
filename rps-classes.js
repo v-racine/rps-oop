@@ -110,12 +110,20 @@ class RPSGame {
     this.numOfGamesPlayed = 0;
     this.roundWinner;
     this.gameWinner;
-    this.maxWins = 3;
+    this.maxWins = 0;
   }
 
   displayWelcomeMessage() {
-    console.log("Welcome to Rock, Paper, Scissors! Let's play a Best-of-Five tournament!");
+    console.log("Welcome to Rock, Paper, Scissors! Let's play a tournament!");
   }
+
+  getNumOfRounds() {
+    console.log("\nDo you want to play a 'best-of-three', a 'best-of-five', or a 'best-of-seven' tournament? \nPlease choose: 3 / 5 / 7");
+    let answer = readline.question();
+    let maxWins = Math.ceil(answer / 2);
+    this.maxWins = maxWins;
+  }
+
 
   determineRoundWinner() {
     let humanChoice = this.human.move;
@@ -193,8 +201,11 @@ class RPSGame {
 
   play() {
     this.displayWelcomeMessage();
+    // this.getNumOfRounds();
 
     while (this.playAgain()) { 
+      this.getNumOfRounds();
+
       while (!this.gameWinner) {
         this.human.choose();
         this.computer.choose();
@@ -208,6 +219,7 @@ class RPSGame {
       this.displayGameWinner();
       this.history.resetTrackers();
       this.scoreboard.resetScores();
+      this.maxWins = 0;
 
       this.numOfGamesPlayed += 1;
       this.gameWinner = undefined;
