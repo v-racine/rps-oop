@@ -8,10 +8,10 @@ const TIE = "TIE";
 const ROUND = {
   HUMAN: "You win this round!",
   COMPUTER: "I win this round!",
-  TIE: "It's a tie!"
+  TIE: "Tie game! Let's play again."
 };
 const GAME = {
-  HUMAN: "You win the game!",
+  HUMAN: "Congrats!! You win the game!",
   COMPUTER: "I win the game!"
 };
 
@@ -39,7 +39,7 @@ class Human extends Player {
 
   choose() {
     console.log(
-      `Please choose one of the following options: ${VALID_CHOICES.join(" / ")}`
+      `\nPlease choose one of the following options: ${VALID_CHOICES.join(" / ")}`
     );
     let choice = readline.question().toLowerCase();
 
@@ -83,11 +83,30 @@ class Scoreboard {
   }
 }
 
+class History {
+  constructor() {
+    this.humanChoices = [];
+    this.computerChoices = [];
+  }
+
+  trackChoices(humanChoice, computerChoice) {
+    this.humanChoices.push(humanChoice);
+    this.computerChoices.push(computerChoice);
+  }
+
+  resetTrackers() {
+    this.humanChoices = [];
+    this.computerChoices = [];
+  }
+  
+}
+
 class RPSGame {
   constructor() {
     this.human = new Human();
     this.computer = new Computer();
     this.scoreboard = new Scoreboard();
+    this.history = new History();
     this.numOfGamesPlayed = 0;
     this.roundWinner;
     this.gameWinner;
@@ -95,7 +114,7 @@ class RPSGame {
   }
 
   displayWelcomeMessage() {
-    console.log("Welcome to Rock, Paper, Scissors! Let's play a Best-Of-Five tournament!");
+    console.log("Welcome to Rock, Paper, Scissors! Let's play a Best-of-Five tournament!");
   }
 
   determineRoundWinner() {
@@ -124,9 +143,18 @@ class RPSGame {
   }
 
   displayRoundWinner() {
-    console.log(`You chose: ${this.human.move}`);
-    console.log(`The computer chose: ${this.computer.move}`);
+    console.clear();
+    //OPTION to print choices for every round at every round:
+    // this.history.humanChoices.forEach((val, idx) => {
+    //   console.log(`Round #${idx + 1}: Your choice is ${val}. My choice is ${this.history.computerChoices[idx]}.`);
+    // })
 
+    //OPTION to print choices only for current round: 
+    const humanLen = this.history.humanChoices.length;
+    const compLen = this.history.computerChoices.length;
+    console.log(`Round #${humanLen}: Your choice is ${this.history.humanChoices[humanLen-1]}. My choice is ${this.history.computerChoices[compLen-1]}.`);
+
+    console.log("");
     console.log(ROUND[this.roundWinner])
     console.log(`Your score: ${this.scoreboard.humanScore} \nMy score: ${this.scoreboard.compScore}`);
   }
@@ -140,7 +168,11 @@ class RPSGame {
   }
 
   displayGameWinner() {
+    console.log("");
     console.log(GAME[this.gameWinner]);
+
+    console.log(`\nHere's the game history:
+    \nYour choices: ${this.history.humanChoices.join(" - ")}\nMy choices: ${this.history.computerChoices.join(" - ")}`)
   }
 
 
@@ -149,12 +181,13 @@ class RPSGame {
       return true;
     } 
 
-    console.log("Would you like to play again? (y/n)");
+    console.log("\nWould you like to play again? (y/n)");
     let answer = readline.question();
     return answer.toLowerCase()[0] === `y`;
   }
 
   displayGoodByeMessage() {
+    console.clear();
     console.log("Thanks for playing! Arriverderci!")
   }
 
@@ -165,6 +198,7 @@ class RPSGame {
       while (!this.gameWinner) {
         this.human.choose();
         this.computer.choose();
+        this.history.trackChoices(this.human.move, this.computer.move);
         this.determineRoundWinner();
         this.scoreboard.updateScores(this.roundWinner);
         this.displayRoundWinner();
@@ -172,9 +206,11 @@ class RPSGame {
       }
 
       this.displayGameWinner();
+      this.history.resetTrackers();
       this.scoreboard.resetScores();
 
       this.numOfGamesPlayed += 1;
+      this.gameWinner = undefined;
     }
 
     this.displayGoodByeMessage();
