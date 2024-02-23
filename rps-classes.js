@@ -190,7 +190,6 @@ class RPSGame {
     \nYour choices: ${this.history.humanChoices.join(" - ")}\nMy choices: ${this.history.computerChoices.join(" - ")}`)
   }
 
-
   playAgain() {
     if (this.numOfGamesPlayed === 0) {
       return true;
@@ -208,7 +207,6 @@ class RPSGame {
 
   play() {
     this.displayWelcomeMessage();
-    // this.getNumOfRounds();
 
     while (this.playAgain()) { 
       this.getNumOfRounds();
