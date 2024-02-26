@@ -73,9 +73,9 @@ class Scoreboard {
         return;
       case COMPUTER:
         this.compScore++;
-        return;
-      default:
-        return;
+      //   return;
+      // default:
+      //   return;
     }
   }
 
