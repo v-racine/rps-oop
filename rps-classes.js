@@ -3,6 +3,7 @@ const readline = require("readline-sync"); // eslint-disable-line
 const VALID_CHOICES = ["rock", "paper", "scissors"];
 const SHORT_VALID_CHOICES = ["r", "p", "s"];
 const VALID_ROUND_CHOICES = ["3", "5", "7"];
+const VALID_YES_OR_NO = ["yes", "no", "y", "n"];
 const HUMAN = "HUMAN";
 const COMPUTER = "COMPUTER";
 const TIE = "TIE";
@@ -196,8 +197,13 @@ class RPSGame {
     } 
 
     console.log("\nWould you like to play again? (y/n)");
-    let answer = readline.question();
-    return answer.toLowerCase()[0] === `y`;
+    let anotherGame = readline.question().toLowerCase();
+
+    while (!VALID_YES_OR_NO.includes(anotherGame)) {
+      console.log("Oops! That's not a valid choice. Please choose: 'yes' or 'no'.");
+      anotherGame = readline.question().toLowerCase();
+    }
+    return anotherGame[0] === "y";
   }
 
   displayGoodByeMessage() {
